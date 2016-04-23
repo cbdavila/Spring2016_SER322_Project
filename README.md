@@ -8,11 +8,8 @@
 1. Open MySQL Workbench
 2. Click the Local Instance box and enter your password
 3. On the left side click Startup / Shutdown and start the server if not already running.
-4. 
 
-====================================
 ## MySQL WorkBench to Server
-====================================
 1) 	CLICK + sign next to MySQL Connections
 2)	CONNECT TO SERVER CONFIGURATION
 	a)Connection Name : <name me whatever you want>
@@ -31,5 +28,4 @@
 
 	j)username: <mysql username>
 	k)password: <mysql username password>
-=======
 
