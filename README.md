@@ -1,8 +1,10 @@
 # Spring2016_SER322_Project
 
-Readme
+## Installation
+1. Download MySQL from http://dev.mysql.com/downloads/mysql/ and install
+
 ====================================
-MySQL WorkBench to Server
+## MySQL WorkBench to Server
 ====================================
 1) 	CLICK + sign next to MySQL Connections
 2)	CONNECT TO SERVER CONFIGURATION
@@ -22,3 +24,5 @@ MySQL WorkBench to Server
 
 	j)username: <mysql username>
 	k)password: <mysql username password>
+=======
+
