@@ -7,6 +7,22 @@ CREATE TABLE `ProjectSER322`.`Person` (
   `PrfLng` VARCHAR(45) NULL,
   PRIMARY KEY (`UserName`));
 
+ALTER TABLE `ProjectSER322`.`Person` 
+CHANGE COLUMN `PrfLng` `PrfLng` INT NULL DEFAULT NULL ;
+
+
+ALTER TABLE `ProjectSER322`.`Person` 
+ADD CONSTRAINT `PrfLng`
+  FOREIGN KEY (`PrfLng`)
+  REFERENCES `ProjectSER322`.`Language` (`LngID`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+
+
+
+
 
 CREATE TABLE `ProjectSER322`.`Tweets` (
   `Tid` INT NOT NULL,
@@ -46,5 +62,28 @@ CREATE TABLE `ProjectSER322`.`Language` (
   `LngID` INT NOT NULL,
   `LngName` VARCHAR(45) NULL,
   PRIMARY KEY (`LngID`));
+
+
+
+Creating a foreign keys
+
+ALTER TABLE `ProjectSER322`.`Tweets` 
+ADD INDEX `User_idx` (`User` ASC);
+ALTER TABLE `ProjectSER322`.`Tweets` 
+ADD CONSTRAINT `User`
+  FOREIGN KEY (`User`)
+  REFERENCES `ProjectSER322`.`Person` (`UserName`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+ALTER TABLE `ProjectSER322`.`City` 
+ADD INDEX `CountryId_idx` (`CountryId` ASC);
+ALTER TABLE `ProjectSER322`.`City` 
+ADD CONSTRAINT `CountryId`
+  FOREIGN KEY (`CountryId`)
+  REFERENCES `ProjectSER322`.`Country` (`CountryId`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
 
 
