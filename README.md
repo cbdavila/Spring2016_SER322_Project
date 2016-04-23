@@ -1,3 +1,6 @@
 # Spring2016_SER322_Project
 
-Readme
+## Installation
+1. Download MySQL from http://dev.mysql.com/downloads/mysql/ and install
+
+
