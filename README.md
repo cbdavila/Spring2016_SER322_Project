@@ -3,6 +3,10 @@
 ## Installation
 1. Download MySQL from http://dev.mysql.com/downloads/mysql/ and install
 2. Use default settings during installation
+3. Install php for your environment from http://php.net/manual/en/install.php or https://www.microsoft.com/web/platform/phponwindows.aspx for windows
+https://www.apachefriends.org/index.html
+
+https://bitnami.com/stack/wamp
 
 ## Set up 
 1. Open MySQL Workbench
