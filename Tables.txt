@@ -1,0 +1,50 @@
+CREATE TABLE `ProjectSER322`.`Person` (
+  `UserName` VARCHAR(45) NOT NULL,
+  `Name` VARCHAR(45) NULL,
+  `Email` VARCHAR(45) NULL,
+  `DOB` VARCHAR(45) NULL,
+  `HomeCity` VARCHAR(45) NULL,
+  `PrfLng` VARCHAR(45) NULL,
+  PRIMARY KEY (`UserName`));
+
+
+CREATE TABLE `ProjectSER322`.`Tweets` (
+  `Tid` INT NOT NULL,
+  `User` VARCHAR(45) NULL,
+  `Date` DATE NULL,
+  `City` VARCHAR(45) NULL,
+  `Msg` VARCHAR(140) NULL,
+  PRIMARY KEY (`Tid`));
+
+ALTER TABLE `ProjectSER322`.`Tweets` 
+CHANGE COLUMN `Date` `Date` TIMESTAMP NULL DEFAULT NULL ;
+
+
+
+
+
+CREATE TABLE `ProjectSER322`.`City` (
+  `CityId` INT NOT NULL,
+  `CityName` VARCHAR(45) NULL,
+  `CountryId` INT NULL,
+  `Population` INT NULL,
+  PRIMARY KEY (`CityId`));
+
+
+
+
+CREATE TABLE `ProjectSER322`.`Country` (
+  `CountryId` INT NOT NULL,
+  `CountryName` VARCHAR(45) NULL,
+  `Population` VARCHAR(45) NULL,
+  PRIMARY KEY (`CountryId`));
+
+
+
+
+CREATE TABLE `ProjectSER322`.`Language` (
+  `LngID` INT NOT NULL,
+  `LngName` VARCHAR(45) NULL,
+  PRIMARY KEY (`LngID`));
+
+
