@@ -2,6 +2,13 @@
 
 ## Installation
 1. Download MySQL from http://dev.mysql.com/downloads/mysql/ and install
+2. Use default settings during installation
+
+## Set up 
+1. Open MySQL Workbench
+2. Click the Local Instance box and enter your password
+3. On the left side click Startup / Shutdown and start the server if not already running.
+4. 
 
 ====================================
 ## MySQL WorkBench to Server
