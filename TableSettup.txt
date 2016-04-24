@@ -1,0 +1,145 @@
+//NOTE: replace projectdb with your project name
+
+CREATE TABLE `projectdb`.`Person` (
+
+  `UserName` VARCHAR(45) NOT NULL,
+
+  `Name` VARCHAR(45) NULL,
+
+  `Email` VARCHAR(45) NULL,
+
+  `DOB` VARCHAR(45) NULL,
+
+  `HomeCity` VARCHAR(45) NULL,
+
+  `PrfLng` VARCHAR(45) NULL,
+
+  PRIMARY KEY (`UserName`));
+
+
+ 
+
+ALTER TABLE `projectdb`.`Person`
+ 
+CHANGE COLUMN `PrfLng` `PrfLng` INT NULL DEFAULT NULL ;
+
+
+
+
+CREATE TABLE `projectdb`.`Tweets` (
+
+  `Tid` INT NOT NULL,
+
+  `User` VARCHAR(45) NULL,
+
+  `Date` DATE NULL,
+
+  `City` VARCHAR(45) NULL,
+
+  `Msg` VARCHAR(140) NULL,
+
+  PRIMARY KEY (`Tid`));
+
+
+
+
+ ALTER TABLE `projectdb`.`Tweets`
+ 
+CHANGE COLUMN `Date` `Date` TIMESTAMP NULL DEFAULT NULL ;
+
+
+
+
+CREATE TABLE `projectdb`.`City` (
+
+  `CityId` INT NOT NULL,
+
+  `CityName` VARCHAR(45) NULL,
+
+  `CountryId` INT NULL,
+
+  `Population` INT NULL,
+
+  PRIMARY KEY (`CityId`));
+
+
+
+
+
+
+CREATE TABLE `projectdb`.`Country` (
+
+  `CountryId` INT NOT NULL,
+
+  `CountryName` VARCHAR(45) NULL,
+
+  `Population` VARCHAR(45) NULL,
+
+  PRIMARY KEY (`CountryId`));
+
+
+
+
+CREATE TABLE `projectdb`.`Language` (
+
+  `LngID` INT NOT NULL,
+
+  `LngName` VARCHAR(45) NULL,
+
+  PRIMARY KEY (`LngID`));
+
+
+
+
+ALTER TABLE `projectdb`.`Person` 
+
+ADD CONSTRAINT `PrfLng`
+
+  FOREIGN KEY (`PrfLng`)
+
+  REFERENCES `projectdb`.`Language` (`LngID`)
+
+  ON DELETE NO ACTION
+
+  ON UPDATE NO ACTION;
+
+
+
+
+ALTER TABLE `projectdb`.`Tweets` 
+
+ADD INDEX `User_idx` (`User` ASC);
+
+ALTER TABLE `projectdb`.`Tweets` 
+
+ADD CONSTRAINT `User`
+
+  FOREIGN KEY (`User`)
+
+  REFERENCES `projectdb`.`Person` (`UserName`)
+
+  ON DELETE NO ACTION
+
+  ON UPDATE NO ACTION;
+
+
+
+
+ALTER TABLE `projectdb`.`City` 
+
+ADD INDEX `CountryId_idx`(`CountryId` ASC);
+
+
+ALTER TABLE `projectdb`.`City` 
+
+ADD CONSTRAINT `CountryId`
+
+  FOREIGN KEY (`CountryId`)
+
+  REFERENCES `projectdb`.`Country` (`CountryId`)
+
+  ON DELETE NO ACTION
+
+  ON UPDATE NO ACTION;
+
+
