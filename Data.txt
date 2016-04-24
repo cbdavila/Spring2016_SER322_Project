@@ -1,0 +1,26 @@
+Lng table 
+
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('1', 'English');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('2', 'Spanish');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('3', 'Hebrew');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('4', 'French');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('5', 'Italian');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('6', 'Chinese');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`) VALUES ('7');
+
+
+UPDATE `ProjectSER322`.`Language` SET `LngName`='Arabic' WHERE `LngID`='7';
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('8', 'German');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('9', 'Russian ');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('10', 'Japanese');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('11', 'Slovak');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('12', 'Turkish');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('13', 'Ukrainian');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('14', 'Polish');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('15', 'Norwegian');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('16', 'Mongolian');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('17', 'Farsi');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('18', 'Greek');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('19', 'Hungarian');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`) VALUES ('20');
+
