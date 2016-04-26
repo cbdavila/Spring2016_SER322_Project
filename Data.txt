@@ -22,5 +22,5 @@ INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('16', 'Mongo
 INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('17', 'Farsi');
 INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('18', 'Greek');
 INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('19', 'Hungarian');
-INSERT INTO `ProjectSER322`.`Language` (`LngID`) VALUES ('20');
+INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('20', 'Afrikaan');
 
