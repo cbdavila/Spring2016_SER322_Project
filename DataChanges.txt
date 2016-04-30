@@ -1,0 +1,56 @@
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='150' WHERE `UserName`='aviyosef';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='18' WHERE `UserName`='CarlosD';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='93' WHERE `UserName`='ChrisC';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='12' WHERE `UserName`='josealva';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='85' WHERE `UserName`='malikkabul';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='12' WHERE `UserName`='mariaduk';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='150' WHERE `UserName`='roys';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='29' WHERE `UserName`='TylerD';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='29' WHERE `UserName`='pierlesu';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='89' WHERE `UserName`='robertB';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='89' WHERE `UserName`='RobinSmith';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='150' WHERE `UserName`='saralevi';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='32' WHERE `UserName`='shellysmith';
+UPDATE `ProjectSER322`.`Person` SET `HomeCity`='17' WHERE `UserName`='taliktamir';
+
+
+UPDATE `ProjectSER322`.`Tweets` SET `City`='150' WHERE `Tid`='1';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='18' WHERE `Tid`='2';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='93' WHERE `Tid`='3';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='12' WHERE `Tid`='4';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='85' WHERE `Tid`='5';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='12' WHERE `Tid`='6';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='29' WHERE `Tid`='7';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='29' WHERE `Tid`='15';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='150' WHERE `Tid`='16';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='18' WHERE `Tid`='17';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='93' WHERE `Tid`='18';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='12' WHERE `Tid`='19';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='12' WHERE `Tid`='21';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='85' WHERE `Tid`='20';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='29' WHERE `Tid`='22';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='150' WHERE `Tid`='25';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='150' WHERE `Tid`='26';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='150' WHERE `Tid`='11';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='150' WHERE `Tid`='10';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='89' WHERE `Tid`='8';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='89' WHERE `Tid`='9';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='53' WHERE `Tid`='14';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='17' WHERE `Tid`='13';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='32' WHERE `Tid`='12';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='89' WHERE `Tid`='23';
+UPDATE `ProjectSER322`.`Tweets` SET `City`='89' WHERE `Tid`='24';
+
+
+ALTER TABLE `ProjectSER322`.`Tweets` 
+CHANGE COLUMN `City` `City` INT NULL DEFAULT NULL ,
+ADD INDEX `City_idx` (`City` ASC);
+ALTER TABLE `ProjectSER322`.`Tweets` 
+ADD CONSTRAINT `City`
+  FOREIGN KEY (`City`)
+  REFERENCES `ProjectSER322`.`City` (`CityId`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+
