@@ -43,3 +43,37 @@ INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeC
 INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('shellysmith', 'Shelly', 'shellythequeen@yahoo.com', '7.29', 'London', '1');
 
 
+
+
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('1', 'aviyosef', '3.24.16', 'Tel Aviv', 'So who thinks that most other people like donald trump are idiots. #HateDonaldTrump');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('2', 'CarlosD', '3.24.16', 'Los Angeles', 'I Hate Donald Trump He Just Try in Too Bring Slavery Back #HateDonaldTrump');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('3', 'ChrisC', '3.25.16', 'Phoenix', 'nobody likes you..not even your wife and kids/grandkids/that is so sad..loser! your neg #\'s are stunning #hateDonaldTrump');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('4', 'josealva', '3.25.16', 'Mexico City', 'If Donald Trump becomes the president it will be either a start of something bad or an end. #HATETHATRACIST #HATEDONALDTRUMP');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('5', 'malikkabul', '4.2.16', 'Kabul', 'donald trump should not be president these four years i hate you #HateDonaldtrump');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('6', 'mariaduk', '4.2.16', 'Mexico City', '#hatedonaldtrump because he\'s the most ignorant man in the world');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('7', 'pierlesu', '4.2.16', 'Paris', '#hatedonaldtrump starting a new hash tag, put this and what you hate about him');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('8', 'robertB', '4.2.16', 'Tucson', 'Donald trump shut up your a ugly mess retweet if you agree #hatedonaldtrump #shutyourmouth #donaldtrump');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('9', 'RobinSmith', '4.22.16', 'Tucson', 'Donald Trump says Sacha Baron Cohen is a third rate character. Look who is talking. #HateDonaldTrump.');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('10', 'roys', '4.6.16', 'Tel Aviv', 'Not much to blog about today. Except for Obamas birth certificate. #hatedonaldtrump');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('11', 'saralevi', '4.14.16', 'Jerusalem', 'has had more horrendously racist moments than any leading presidential candidate in 40+ years.');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('12', 'shellysmith', '4.11.16', 'London', 'Damn that reminds me. I gotta finish this Trump book. ');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('13', 'taliktamir', '4.10.16', 'Cairo', 'Rep. John Duncan Endorses The Donald: Trump Will Use \'Tremendous Leverage on Trade\' - Breitbart http://bit.ly/1TlxotH ');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('14', 'Tompp', '4.10.16', 'Orlando', 'Run on Trump\'s ticket? No thanks, some say. \"Like buying a ticket on the Titanic.\"');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('15', 'TylerD', '4.2.16', 'Paris', 'Donald Trump is if Wario ran for president.');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('16', 'aviyosef', '4.30.16', 'Tel aviv', 'A magnitude of 6.0 #earthquake strikes SW of Lakatoro, #Vanuatu at 8:35 GMT Sat (USGS)');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('17', 'CarlosD', '4.30.16', 'Los Angeles', '#HFTelethon16 More recently @humanityfirst responded to catastrophic 2010 Haiti earthquake');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('18', 'ChrisC', '4.30.16', 'Phoenix', '5.1 earthquake, 27km SW of Lakatoro, Vanuatu. 2016-04-30 20:26:30 at epicenter (24m ago, depth 12km). http://tinyurl.com/jzseoz4 ');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('19', 'josealva', '4.30.16', 'Mexico City', 'Nuclear power plant stays online in Japan despite aftershocks from earthquake ');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('20', 'malikkabul', '4.30.16', 'Kabul', '5.0 earthquake, 31km SW of Norsup, Vanuatu. 2016-04-30 15:38:28 at epicenter (27m ago, depth 10km). http://tinyurl.com/zul6oo2 ');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('21', 'mariaduk', '4.30.16', 'Mexico City', 'By Crying Her Little Heart Out, Tiny Puppy Saves Her Littermates From Earthquake Rubble - http://bit.ly/1VXXIAs ');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('22', 'pierlesu', '4.29.16', 'Paris', 'At least seven taxi drivers in northeast Japan have reported picking up the ghost of a person who died in the 2011 earthquake and tsunami.');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('23', 'robertB', '4.29.16', 'Tucson', 'California\'s so funny I always think it\'s an earthquake but it\'s just my physically debilitating anxiety');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('24', 'RobinSmith', '4.29.16', 'Tucson', 'Prelim M6.8 earthquake northern East Pacific Rise Apr-29 01:33 UTC, updates ');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('25', 'roys', '4.28.16', 'Tel Aviv', 'this location in Nepal was destroyed in the recent terrible earth quake .. so sad .. but I believ they rebuild');
+INSERT INTO `ProjectSER322`.`Tweets` (`Tid`, `User`, `Date`, `City`, `Msg`) VALUES ('26', 'saralevi', '4.28.16', 'Jerusalem', 'this location in Nepal was destroyed in the recent terrible earth quake .. so sad .. but I believ they rebuild');
+
+
+
+
+
+
