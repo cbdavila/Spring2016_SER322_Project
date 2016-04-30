@@ -28,3 +28,18 @@ INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeC
 INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('CarlosD', 'Carlos', 'carlosddd@gmail.com', '3.1.88', 'Los Angeles', '1');
 INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`) VALUES ('TylerD', 'Tyler', 'tyler555@gmail.com', '5.5.90', 'Paris');
 
+
+UPDATE `ProjectSER322`.`Person` SET `PrfLng`='4' WHERE `UserName`='TylerD';
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('Tompp', 'Tommy', 'tom223@gmail.com', '6.1.80', 'Orlando', '1');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('RobinSmith', 'Robin', 'rsmith@yahoo.com', '8.20.76', 'Tucson', '1');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('robertB', 'Robert', 'rob123@yahoo.com', '8.15.95', 'Tucson', '1');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('josealva', 'Jose', 'josepapi@yahoo.com', '2.24.98', 'Mexico City', '2');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('mariaduk', 'Maria', 'marryalba@gmail.com', '3.21.80', 'Mexico City', '2');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('pierlesu', 'Pier', 'pierlala1212@gmail.com', '4.19.81', 'Paris', '4');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('aviyosef', 'Avi', 'avi999@gmail.com', '4.4.81', 'Tel Aviv', '3');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('saralevi', 'Sara', 'saral@yahoo.com', '12.31.90', 'Jerusalem', '3');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('taliktamir', 'Talik', 'noone12@gmail.com', '7.22.95', 'Cairo', '7');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('malikkabul', 'Malik', 'mamamalik@yahoo.com', '7.7.88', 'Kabul', '7');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('shellysmith', 'Shelly', 'shellythequeen@yahoo.com', '7.29', 'London', '1');
+
+
