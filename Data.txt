@@ -21,3 +21,10 @@ INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('17', 'Farsi
 INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('18', 'Greek');
 INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('19', 'Hungarian');
 INSERT INTO `ProjectSER322`.`Language` (`LngID`, `LngName`) VALUES ('20', 'Afrikaan');
+
+
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('roys', 'Roy', 'roy@gmail.com', '12.3.86', 'Tel Aviv', '3');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('ChrisC', 'Chris', 'chris123@gmail.com', '1.1.90', 'Phoenix', '1');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`, `PrfLng`) VALUES ('CarlosD', 'Carlos', 'carlosddd@gmail.com', '3.1.88', 'Los Angeles', '1');
+INSERT INTO `ProjectSER322`.`Person` (`UserName`, `Name`, `Email`, `DOB`, `HomeCity`) VALUES ('TylerD', 'Tyler', 'tyler555@gmail.com', '5.5.90', 'Paris');
+

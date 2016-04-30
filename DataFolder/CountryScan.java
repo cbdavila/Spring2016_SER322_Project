@@ -9,7 +9,7 @@ public class CountryScan {
 	String population = "";
 	String countryID = "";
 	String query = "";
-	String filename = "languages.txt";
+	String filename = "countryData.txt";
 	
 	public CountryScan(){
 		
