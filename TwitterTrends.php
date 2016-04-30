@@ -113,7 +113,7 @@ class TableRows extends RecursiveIteratorIterator {
 		$username = "root";
 		$password = "pass";
 		$messageQuery = "SELECT * FROM tweets WHERE Msg LIKE '%" . $searchPhrase . "%'";
-		$PersonQuery = "SELECT * FROM person WHERE UserName = ANY(SELECT User FROM (". $messageQuery .") as mQ)"
+		$PersonQuery = "SELECT * FROM person WHERE UserName = ANY(SELECT User FROM (". $messageQuery .") as mQ)";
 
 		try 
 		{
@@ -122,11 +122,11 @@ class TableRows extends RecursiveIteratorIterator {
 			$stmt = $conn->prepare($messageQuery);
 			$stmt->execute();
 			
-			$City = $conn->prepare("SELECT CityId FROM city WHERE city.CityId = ANY(SELECT HomeCity FROM (". $messageQuery .") as mQ)");
+			$City = $conn->prepare("SELECT CityId FROM city WHERE city.CityId = ANY(SELECT HomeCity FROM (". $PersonQuery .") as mQ)");
 			$City->execute();
 			$countCity = $City->rowCount();
 			
-			$Lng = $conn->prepare("SELECT LngName FROM language WHERE language.LngID = ANY(SELECT PrfLng FROM (". $messageQuery .") as mQ)");
+			$Lng = $conn->prepare("SELECT LngName FROM language WHERE language.LngID = ANY(SELECT PrfLng FROM (". $PersonQuery .") as mQ)");
 			$Lng->execute();
 			$countLng = $Lng->rowCount();
 			
