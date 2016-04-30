@@ -3,8 +3,10 @@
 <head>
 	<title>Twitter Trends</title>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
 </head>
 <body>
 <?php
@@ -64,23 +66,24 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 		return $data;
 	}
 	
-class TableRows extends RecursiveIteratorIterator { 
-    function __construct($it) { 
-        parent::__construct($it, self::LEAVES_ONLY); 
-    }
+	class TableRows extends RecursiveIteratorIterator 
+	{ 
+		function __construct($it) { 
+			parent::__construct($it, self::LEAVES_ONLY); 
+		}
 
-    function current() {
-        return "<td style='width:150px;border:1px solid black;'>" . parent::current() . "</td>";
-    }
+		function current() {
+			return "<td style='width:150px;border:1px solid black;'>" . parent::current() . "</td>";
+		}
 
-    function beginChildren() { 
-        echo "<tr>"; 
-    } 
+		function beginChildren() { 
+			echo "<tr>"; 
+		} 
 
-    function endChildren() { 
-        echo "</tr>" . "\n";
-    } 
-} 
+		function endChildren() { 
+			echo "</tr>" . "\n";
+		} 
+	} 
 ?>
 
 
@@ -90,7 +93,7 @@ class TableRows extends RecursiveIteratorIterator {
 		<div style="font-size:20px;" class="text-center">By: Roy Sofiov, Carlos Davila, Chris Carpenter, Tyler Driskill</div>
 	<div class="well">
 		<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-			<input style="font-size:25px;height:50px;" type="search" class="form-control" id="search" name="searchPhrase" placeholder="Search for a Trend" value=<?php echo $searchPhrase;?>></input>
+			<input style="font-size:25px;height:50px;" type="search" class="form-control" id="search" name="searchPhrase" placeholder="Search for a Trend" value='<?php echo $searchPhrase?>'></input>
 			<button type="submit" class="btn btn-default">Search</button>
 			<div>
 				<label>Date Range From: </label>
@@ -121,6 +124,8 @@ class TableRows extends RecursiveIteratorIterator {
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$stmt = $conn->prepare($messageQuery);
 			$stmt->execute();
+			$clonestmt = $conn->prepare($messageQuery);
+			$clonestmt->execute();
 			
 			$City = $conn->prepare("SELECT CityId FROM city WHERE city.CityId = ANY(SELECT HomeCity FROM (". $PersonQuery .") as mQ)");
 			$City->execute();
@@ -144,6 +149,7 @@ class TableRows extends RecursiveIteratorIterator {
 	
 	<!--Searching Inputs-->
 	<?php
+	
 		echo "<br><b>Your Input: </b>";
 		echo $searchPhrase;
 		echo "<br><b>Date From: </b>";
@@ -153,28 +159,41 @@ class TableRows extends RecursiveIteratorIterator {
 		echo $dateTo;
 		echo " " . $timeTo;
 	?>
+	<div style="font-size:25px;">
+	<h2>Querys</h2>
 	
+	<br><b>Messages Found: </b> <?php echo $count; ?>
+	
+	<br><b>Different Citys used in: </b> <?php echo $countCity; ?>
+	<div>
+	<canvas id="citysPie" width="100" height="100"></canvas>
+	</div>
+	<script>
+	
+		var citysPieData = [
+			<?php foreach($clonestmt as $row) { echo "{ value: ". $row["Tid"] .", color: '#'+((1<<24)*Math.random()|0).toString(16), label: '". $row["User"] ."' }, "; }?>
+		];
+
+		// Get the context of the canvas element we want to select
+		var citysPie= document.getElementById("citysPie").getContext("2d");
+		new Chart(citysPie).Doughnut(citysPieData);
+	</script>
+	
+	<br><b>Different Perfered Languages: </b> <?php echo $countLng; ?>
+	</div>
 	<!--Outputs / querys -->
 	<?php
-		echo "<h2>Querys</h2>";
-		echo "<br><b>Messages Found: </b>";
-		echo $count;
+	
 		//All messages found matching in a table
-		echo "<table style='border: solid 1px black;'>";
+		echo "<table style='border: solid 1px black;width: 100%;'>";
+		echo "<tr><th>Tid</th><th>User</th><th>Date</th><th>City</th><th>Msg</th></tr>";
 
 		foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=> $v) { 
 			echo $v;
 		}
 		echo "</table>";
-		
-		//Query Citys used
-		echo "<br><b>Different Citys used in: </b>";
-		echo $countCity;
-		
-		//Query number of PrfLng of persons
-		echo "<br><b>Different Perfered Languages: </b>";
-		echo $countLng;
 	?>
+	
 	
 </div>
 </body>
