@@ -112,21 +112,29 @@ class TableRows extends RecursiveIteratorIterator {
 		$servername = "localhost";
 		$username = "root";
 		$password = "pass";
+		$messageQuery = "SELECT * FROM tweets WHERE Msg LIKE '%" . $searchPhrase . "%'";
+		$PersonQuery = "SELECT * FROM person WHERE UserName = ANY(SELECT User FROM (". $messageQuery .") as mQ)"
 
 		try 
 		{
 			$conn = new PDO("mysql:host=$servername;dbname=projectser322", $username, $password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$stmt = $conn->prepare("SELECT Name FROM person"); 
+			$stmt = $conn->prepare($messageQuery);
 			$stmt->execute();
+			
+			$City = $conn->prepare("SELECT CityId FROM city WHERE city.CityId = ANY(SELECT HomeCity FROM (". $messageQuery .") as mQ)");
+			$City->execute();
+			$countCity = $City->rowCount();
+			
+			$Lng = $conn->prepare("SELECT LngName FROM language WHERE language.LngID = ANY(SELECT PrfLng FROM (". $messageQuery .") as mQ)");
+			$Lng->execute();
+			$countLng = $Lng->rowCount();
+			
+			
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+			$count = $stmt->rowCount();
 			echo "<div style='color:green;'> Connected to Data Base successfully </div>"; 
 			
-			echo "<table style='border: solid 1px black;'>";
-			foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=> $v) { 
-				echo $v;
-			}
-			
-			echo "</table>";
 		}
 		catch(PDOException $e)
 		{
@@ -149,7 +157,23 @@ class TableRows extends RecursiveIteratorIterator {
 	<!--Outputs / querys -->
 	<?php
 		echo "<h2>Querys</h2>";
-		echo $searchPhrase;
+		echo "<br><b>Messages Found: </b>";
+		echo $count;
+		//All messages found matching in a table
+		echo "<table style='border: solid 1px black;'>";
+
+		foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=> $v) { 
+			echo $v;
+		}
+		echo "</table>";
+		
+		//Query Citys used
+		echo "<br><b>Different Citys used in: </b>";
+		echo $countCity;
+		
+		//Query number of PrfLng of persons
+		echo "<br><b>Different Perfered Languages: </b>";
+		echo $countLng;
 	?>
 	
 </div>
