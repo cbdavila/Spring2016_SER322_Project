@@ -68,11 +68,18 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 	
 	class TableRows extends RecursiveIteratorIterator 
 	{ 
+		var $indx = 0;
 		function __construct($it) { 
 			parent::__construct($it, self::LEAVES_ONLY); 
 		}
 
 		function current() {
+			$this->indx = ($this->indx+1) % 5;
+
+			if($this->indx == 2) {
+				$current = parent::current();
+				return "<td style='width:150px;border:1px solid black;'><a href='MoreInfo.php?fn=search&username=$current'>" . $current . "</a></td>";
+			}
 			return "<td style='width:150px;border:1px solid black;'>" . parent::current() . "</td>";
 		}
 
@@ -91,19 +98,19 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 	
 		<h1 class="text-center">Twitter Trends</h1>
 		<div style="font-size:20px;" class="text-center">By: Roy Sofiov, Carlos Davila, Chris Carpenter, Tyler Driskill</div>
-	<div class="well">
+	<div class="well" style="background-color:#A0A0A0;">
 		<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 			<input style="font-size:25px;height:50px;" type="search" class="form-control" id="search" name="searchPhrase" placeholder="Search for a Trend" value='<?php echo $searchPhrase?>'></input>
 			<button type="submit" class="btn btn-default">Search</button>
 			<div>
 				<label>Date Range From: </label>
 				<input type="date" name="dateFrom" value=<?php echo $dateFrom;?>>
-				<input type="time" name="timeFrom" value=<?php echo $timeFrom;?>>
+				<!-- <input type="time" name="timeFrom" value=<?php echo $timeFrom;?>> -->
 			</div>
 			<div>
 				<label>Date Range To: </label>
 				<input type="date" name="dateTo" value=<?php echo $dateTo;?>>
-				<input type="time" name="timeTo" value=<?php echo $timeTo;?>>
+				<!-- <input type="time" name="timeTo" value=<?php echo $timeTo;?>> -->
 			</div>
 		</form>
 	</div>
@@ -115,59 +122,180 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 		$servername = "localhost";
 		$username = "root";
 		$password = "pass";
+		$dbName = "projectser322"; //projectdb projectser322
+		
 		$messageQuery = "SELECT * FROM tweets WHERE Msg LIKE '%" . $searchPhrase . "%'";
 		$PersonQuery = "SELECT * FROM person WHERE UserName = ANY(SELECT User FROM (". $messageQuery .") as mQ)";
-
+	?>
+	
+	<!--Searching Inputs-->
+	<div class="well">
+		<?php
+			echo "<b>Your Input: </b>";
+			echo $searchPhrase;
+			echo "<br><b>Date From: </b>";
+			echo $dateFrom;
+			echo " " . $timeFrom;
+			echo "<br><b>Date To: </b>";
+			echo $dateTo;
+			echo " " . $timeTo;
+		?>
+	</div>
+	
+	<!-- Querys -->
+	<h2>Querys</h2>
+	<?php
 		try 
 		{
-			$conn = new PDO("mysql:host=$servername;dbname=projectser322", $username, $password);
+			$conn = new PDO("mysql:host=$servername;dbname=". $dbName, $username, $password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			//all the queried messages
 			$stmt = $conn->prepare($messageQuery);
 			$stmt->execute();
 			$clonestmt = $conn->prepare($messageQuery);
 			$clonestmt->execute();
 			
-			$City = $conn->prepare("SELECT CityId FROM city WHERE city.CityId = ANY(SELECT HomeCity FROM (". $PersonQuery .") as mQ)");
+			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+			$count = $stmt->rowCount();
+			
+			////City////
+			$City = $conn->prepare("SELECT city.CityName AS name, COUNT(*) AS num
+									FROM city
+									INNER JOIN 
+										(SELECT City AS 'name'
+										FROM (". $messageQuery .") AS pQ
+										) AS totalCount
+									ON city.CityId=totalCount.name
+									GROUP BY CityId
+									");
 			$City->execute();
 			$countCity = $City->rowCount();
 			
-			$Lng = $conn->prepare("SELECT LngName FROM language WHERE language.LngID = ANY(SELECT PrfLng FROM (". $PersonQuery .") as mQ)");
-			$Lng->execute();
-			$countLng = $Lng->rowCount();
+			////Country////
+			$Country = $conn->prepare("SELECT country.CountryName AS name, COUNT(*) AS num
+									FROM country
+									INNER JOIN
+										(SELECT city.CountryId as 'name'
+										FROM city
+										INNER JOIN 
+											(SELECT City AS 'name'
+											FROM (". $messageQuery .") AS pQ) AS totalCount
+										ON city.CityId=totalCount.name) as cQ
+									ON country.CountryId=cQ.name
+									GROUP BY CountryId
+									");
+			$Country->execute();
+			$countCountry = $Country->rowCount();
+			
+			////Language////
+			$Language = $conn->prepare("SELECT LngName AS name, COUNT(*) AS num
+									FROM language 
+									INNER JOIN
+										(SELECT PrfLng 
+										FROM (". $PersonQuery .") as mQ) as totalCount
+									ON language.LngID=totalCount.PrfLng
+									GROUP BY LngID
+									");
+			$Language->execute();
+			$countLanguage = $Language->rowCount();
+			////People Referenced////
 			
 			
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-			$count = $stmt->rowCount();
-			echo "<div style='color:green;'> Connected to Data Base successfully </div>"; 
+			////HashTags////
+			
+			
+			////Dates////
+			$Dates = $conn->prepare("SELECT Date AS name, COUNT(*) AS num 
+									FROM (". $messageQuery .") as mQ
+									GROUP BY Date
+									");
+			$Dates->execute();
+			$countDates = $Dates->rowCount();
+
+
+			//Opening Elements//
+			echo "<div class='well' style='color:green;background-color:#B2FFB2;'> Connected to Data Base successfully </div>"; 
+			echo "<div style=''>"; //font-size:25px;
+			
+			//tweets found
+				echo "<b>Tweets Found: </b> ". $count;
+			
+			//City
+				//number of diffrent citys '5'
+				echo "<hr><b>Citys used in: </b>". $countCity;
+				//cites with amount used by 'Phoenix: 7'
+				echo "<ul>";
+				foreach($City as $row) 
+				{ 
+					echo "<li>". $row["name"] .": ". $row["num"] ."</li>";
+				}
+				echo "</ul>";
+			
+			//Country
+				//number of diffrent Countries '5'
+				echo "<hr><b>Countries used in: </b>". $countCountry;
+				//Countries with amount used by 'USA: 7'
+				echo "<ul>";
+				foreach($Country as $row) 
+				{ 
+					echo "<li>". $row["name"] .": ". $row["num"] ."</li>";
+				}
+				echo "</ul>";
+			
+			//Language
+				//number of diffrent Languages '5'
+				echo "<hr><b>Different Preferred Languages: </b>". $countLanguage;
+				//Languages with amount used by 'English: 7'
+				echo "<ul>";
+				foreach($Language as $row) 
+				{ 
+					echo "<li>". $row["name"] .": ". $row["num"] ."</li>";
+				}
+				echo "</ul>";
+			
+			//People Referenced with @
+				//number of diffrent References '5'
+				echo "<hr><b>People referenced: </b>";
+				//References with amount used by '@Tom: 7'
+			
+			//HashTags
+				//number of diffrent HashTags '5'
+				echo "<hr><b>HashTags used: </b>";
+				//HashTags with amount used by '#Awesome: 7'
+				
+			//Dates 
+				//Number of diffrent Dates 
+				echo "<hr><b>Dates used on: </b>". $countDates;
+				//Dates with amount Used '2-7-2016: 7'
+				echo "<ul>";
+				foreach($Dates as $row) 
+				{ 
+					echo "<li>". $row["name"] .": ". $row["num"] ."</li>";
+				}
+				echo "</ul>";
+			
+			//Closing Elements//
+			echo "</div><hr>";
+			
+			//List as Table
+				echo "<h2>Tweets Found: ". $count ."</h2>";
+				echo "<table style='border: solid 1px black;width: 100%;'>";
+				echo "<tr><th>Tid</th><th>User</th><th>Date</th><th>City</th><th>Msg</th></tr>";
+
+				foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=> $v) { 
+					echo $v;
+				}
+				echo "</table>";
 			
 		}
 		catch(PDOException $e)
 		{
-			echo "<div style='color:red;'> Connection to Data Base failed: " . $e->getMessage() . "</div>";
+			echo "<div class='well' style='color:red;background-color:#FFB2B2;'> Connection to Data Base failed: " . $e->getMessage() . "</div>";
 		}
 	?>
 	
-	<!--Searching Inputs-->
-	<?php
-	
-		echo "<br><b>Your Input: </b>";
-		echo $searchPhrase;
-		echo "<br><b>Date From: </b>";
-		echo $dateFrom;
-		echo " " . $timeFrom;
-		echo "<br><b>Date To: </b>";
-		echo $dateTo;
-		echo " " . $timeTo;
-	?>
-	<div style="font-size:25px;">
-	<h2>Querys</h2>
-	
-	<br><b>Messages Found: </b> <?php echo $count; ?>
-	
-	<br><b>Different Citys used in: </b> <?php echo $countCity; ?>
-	<div>
+	<!-- Pie Testing Stuff 
 	<canvas id="citysPie" width="100" height="100"></canvas>
-	</div>
 	<script>
 	
 		var citysPieData = [
@@ -178,23 +306,8 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 		var citysPie= document.getElementById("citysPie").getContext("2d");
 		new Chart(citysPie).Doughnut(citysPieData);
 	</script>
-	
-	<br><b>Different Perfered Languages: </b> <?php echo $countLng; ?>
-	</div>
-	<!--Outputs / querys -->
-	<?php
-	
-		//All messages found matching in a table
-		echo "<table style='border: solid 1px black;width: 100%;'>";
-		echo "<tr><th>Tid</th><th>User</th><th>Date</th><th>City</th><th>Msg</th></tr>";
+	-- >
 
-		foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=> $v) { 
-			echo $v;
-		}
-		echo "</table>";
-	?>
-	
-	
-</div>
+</div>	
 </body>
 </html>
