@@ -3,10 +3,14 @@
 <head>
 	<title>Twitter Trends</title>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
 	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
+	
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.0.1/Chart.min.js"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
 <?php
@@ -224,12 +228,18 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 				//number of diffrent citys '5'
 				echo "<hr><b>Citys used in: </b>". $countCity;
 				//cites with amount used by 'Phoenix: 7'
-				echo "<ul>";
+				/*echo "<ul>";
 				foreach($City as $row) 
 				{ 
 					echo "<li>". $row["name"] .": ". $row["num"] ."</li>";
 				}
-				echo "</ul>";
+				echo "</ul>";*/
+
+				echo "<br><canvas id='citysPie' width='200' height='150'></canvas>";
+				/*foreach($City as $row) 
+				{ 
+					echo "<li>". $row["name"] .": ". $row["num"] ."</li>";
+				}*/
 			
 			//Country
 				//number of diffrent Countries '5'
@@ -295,19 +305,16 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 	?>
 	
 	<!-- Pie Testing Stuff 
-	<canvas id="citysPie" width="100" height="100"></canvas>
+	<canvas id="citysPie" width="200" height="100"></canvas>-->
 	<script>
-	
 		var citysPieData = [
-			<?php foreach($clonestmt as $row) { echo "{ value: ". $row["Tid"] .", color: '#'+((1<<24)*Math.random()|0).toString(16), label: '". $row["User"] ."' }, "; }?>
+			<?php foreach($City as $row) { echo "{ value: ". $row["num"] .", color: '#'+((1<<24)*Math.random()|0).toString(16), label: '". $row["name"] ."' }, "; }?>
 		];
-
-		// Get the context of the canvas element we want to select
-		var citysPie= document.getElementById("citysPie").getContext("2d");
-		new Chart(citysPie).Doughnut(citysPieData);
+		
+		var ctx = document.getElementById('citysPie').getContext('2d');
+		var testing = new Chart(ctx).Pie(citysPieData, {});
 	</script>
-	-- >
-
+	
 </div>	
 </body>
 </html>
