@@ -123,12 +123,13 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 		//$searchPhrase = "test";
 		//<?php echo $_GET["searchPhrase"];
 
-		$servername = "localhost";
+		$servername = "127.0.0.1";
 		$username = "root";
-		$password = "pass";
-		$dbName = "projectser322"; //projectdb projectser322
+		$password = "fruity71";
+		$dbName = "projectdb"; //projectdb projectser322
 		
-		$messageQuery = "SELECT * FROM tweets WHERE Msg LIKE '%" . $searchPhrase . "%'";
+        $messageQuery = "SELECT * FROM tweets WHERE Msg LIKE '%" . $searchPhrase . "%'AND tweets.Date BETWEEN '$dateFrom' AND '$dateTo'";
+
 		$PersonQuery = "SELECT * FROM person WHERE UserName = ANY(SELECT User FROM (". $messageQuery .") as mQ)";
 	?>
 	
