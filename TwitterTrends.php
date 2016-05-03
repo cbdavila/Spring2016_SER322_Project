@@ -125,8 +125,8 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 
 		$servername = "127.0.0.1";
 		$username = "root";
-		$password = "fruity71";
-		$dbName = "projectdb"; //projectdb projectser322
+		$password = "pass";
+		$dbName = "projectser322"; //projectdb projectser322
 		
         $messageQuery = "SELECT * FROM tweets WHERE Msg LIKE '%" . $searchPhrase . "%'AND tweets.Date BETWEEN '$dateFrom' AND '$dateTo'";
 
@@ -175,6 +175,17 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 									");
 			$City->execute();
 			$countCity = $City->rowCount();
+			//CityPie
+			$CityPie = $conn->prepare("SELECT city.CityName AS name, COUNT(*) AS num
+									FROM city
+									INNER JOIN 
+										(SELECT City AS 'name'
+										FROM (". $messageQuery .") AS pQ
+										) AS totalCount
+									ON city.CityId=totalCount.name
+									GROUP BY CityId
+									");
+			$CityPie->execute();
 			
 			////Country////
 			$Country = $conn->prepare("SELECT country.CountryName AS name, COUNT(*) AS num
@@ -204,11 +215,51 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 			$Language->execute();
 			$countLanguage = $Language->rowCount();
 			////People Referenced////
-			
+			$Referenced = $conn->prepare("SELECT word AS name, COUNT(*) AS num
+										FROM 
+											(SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(mQ.Msg, ' ', n.n), ' ', -1) AS word
+											FROM (". $messageQuery .") as mQ CROSS JOIN 
+												(SELECT a.N + b.N * 10 + 1 n
+												FROM 
+													(SELECT 0 AS N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) a
+													,(SELECT 0 AS N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) b
+												ORDER BY n) n
+											WHERE n.n <= 1 + (LENGTH(mQ.Msg) - LENGTH(REPLACE(mQ.Msg, ' ', '')))
+											ORDER BY Msg) AS messageWords
+										WHERE word LIKE '%@%'
+										GROUP BY word
+										
+										");
+			$Referenced->execute();
+			$countReferenced = $Referenced->rowCount();
 			
 			////HashTags////
+			$HashTags = $conn->prepare("SELECT word AS name, COUNT(*) AS num
+										FROM 
+											(SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(mQ.Msg, ' ', n.n), ' ', -1) AS word
+											FROM (". $messageQuery .") as mQ CROSS JOIN 
+												(SELECT a.N + b.N * 10 + 1 n
+												FROM 
+													(SELECT 0 AS N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) a
+													,(SELECT 0 AS N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) b
+												ORDER BY n) n
+											WHERE n.n <= 1 + (LENGTH(mQ.Msg) - LENGTH(REPLACE(mQ.Msg, ' ', '')))
+											ORDER BY Msg) AS messageWords
+										WHERE word LIKE '%#%'
+										GROUP BY word
+										
+										");
+										/*SELECT Msg 
+										FROM (". $messageQuery .") as mQ
+										WHERE Msg LIKE '%#%'
+									");
+									SUBSTRING_INDEX(SUBSTRING_INDEX('test,test,test', ',', 1), ',', -1)
+									*/
+			$HashTags->execute();
+			$countHashTags = $HashTags->rowCount();
 			
-			
+			// $messageQuery = "SELECT * FROM tweets WHERE Msg LIKE '%" . $searchPhrase . "%'AND tweets.Date BETWEEN '$dateFrom' AND '$dateTo'";
+			 
 			////Dates////
 			$Dates = $conn->prepare("SELECT Date AS name, COUNT(*) AS num 
 									FROM (". $messageQuery .") as mQ
@@ -229,18 +280,14 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 				//number of diffrent citys '5'
 				echo "<hr><b>Citys used in: </b>". $countCity;
 				//cites with amount used by 'Phoenix: 7'
-				/*echo "<ul>";
+				echo "<br><canvas id='citysPie' width='200' height='150'></canvas>";
+				echo "<ul>";
 				foreach($City as $row) 
 				{ 
-					echo "<li>". $row["name"] .": ". $row["num"] ."</li>";
+					echo "<li>". $row["name"] .": <b>". $row["num"] ." Tweets</b></li>";
 				}
-				echo "</ul>";*/
+				echo "</ul>";
 
-				echo "<br><canvas id='citysPie' width='200' height='150'></canvas>";
-				/*foreach($City as $row) 
-				{ 
-					echo "<li>". $row["name"] .": ". $row["num"] ."</li>";
-				}*/
 			
 			//Country
 				//number of diffrent Countries '5'
@@ -249,7 +296,7 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 				echo "<ul>";
 				foreach($Country as $row) 
 				{ 
-					echo "<li>". $row["name"] .": ". $row["num"] ."</li>";
+					echo "<li>". $row["name"] .": <b>". $row["num"] ." Tweets</b></li>";
 				}
 				echo "</ul>";
 			
@@ -260,20 +307,30 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 				echo "<ul>";
 				foreach($Language as $row) 
 				{ 
-					echo "<li>". $row["name"] .": ". $row["num"] ."</li>";
+					echo "<li>". $row["name"] .": <b>". $row["num"] ." Tweets</b></li>";
 				}
 				echo "</ul>";
 			
-			//People Referenced with @
+			//People Referenced with @ 
 				//number of diffrent References '5'
-				echo "<hr><b>People referenced: </b>";
+				echo "<hr><b>People referenced: </b>". $countReferenced;
 				//References with amount used by '@Tom: 7'
-			
+				echo "<ul>";
+				foreach($Referenced as $row) 
+				{ 
+					echo "<li>". $row["name"] .": <b>". $row["num"] ." Time</b></li>";
+				}
+				echo "</ul>";
 			//HashTags
 				//number of diffrent HashTags '5'
-				echo "<hr><b>HashTags used: </b>";
+				echo "<hr><b>HashTags used: </b>". $countHashTags;
 				//HashTags with amount used by '#Awesome: 7'
-				
+				echo "<ul>";
+				foreach($HashTags as $row) 
+				{ 
+					echo "<li>". $row["name"] .": <b>". $row["num"] ." Time</b></li>";
+				}
+				echo "</ul>";
 			//Dates 
 				//Number of diffrent Dates 
 				echo "<hr><b>Dates used on: </b>". $countDates;
@@ -281,7 +338,7 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 				echo "<ul>";
 				foreach($Dates as $row) 
 				{ 
-					echo "<li>". $row["name"] .": ". $row["num"] ."</li>";
+					echo "<li>". $row["name"] .": <b>". $row["num"] ." Tweets</b></li>";
 				}
 				echo "</ul>";
 			
@@ -309,7 +366,7 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 	<canvas id="citysPie" width="200" height="100"></canvas>-->
 	<script>
 		var citysPieData = [
-			<?php foreach($City as $row) { echo "{ value: ". $row["num"] .", color: '#'+((1<<24)*Math.random()|0).toString(16), label: '". $row["name"] ."' }, "; }?>
+			<?php foreach($CityPie as $row) { echo "{ value: ". $row["num"] .", color: '#'+((1<<24)*Math.random()|0).toString(16), label: '". $row["name"] ."' }, "; }?>
 		];
 		
 		var ctx = document.getElementById('citysPie').getContext('2d');
