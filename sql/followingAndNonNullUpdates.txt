@@ -1,0 +1,41 @@
+CREATE TABLE `projectdb`.`following` (
+  `Follower` VARCHAR(45) NULL,
+  `Followee` VARCHAR(45) NULL);
+
+ALTER TABLE `projectdb`.`following` 
+CHANGE COLUMN `Follower` `Follower` VARCHAR(45) NOT NULL ,
+CHANGE COLUMN `Followee` `Followee` VARCHAR(45) NOT NULL ;
+
+ALTER TABLE `projectdb`.`language` 
+CHANGE COLUMN `LngName` `LngName` VARCHAR(45) NOT NULL ;
+
+ALTER TABLE `projectdb`.`country` 
+CHANGE COLUMN `CountryName` `CountryName` VARCHAR(45) NOT NULL ;
+
+ALTER TABLE `projectdb`.`city` 
+DROP FOREIGN KEY `CountryId`;
+ALTER TABLE `projectdb`.`city` 
+CHANGE COLUMN `CityName` `CityName` VARCHAR(45) NOT NULL ,
+CHANGE COLUMN `CountryId` `CountryId` INT(11) NOT NULL ;
+ALTER TABLE `projectdb`.`city` 
+ADD CONSTRAINT `CountryId`
+  FOREIGN KEY (`CountryId`)
+  REFERENCES `projectdb`.`country` (`CountryId`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `projectdb`.`person` 
+CHANGE COLUMN `Email` `Email` VARCHAR(45) NOT NULL ;
+
+ALTER TABLE `projectdb`.`tweets` 
+DROP FOREIGN KEY `User`;
+ALTER TABLE `projectdb`.`tweets` 
+CHANGE COLUMN `User` `User` VARCHAR(45) NOT NULL ,
+CHANGE COLUMN `Date` `Date` TIMESTAMP NOT NULL ;
+ALTER TABLE `projectdb`.`tweets` 
+ADD CONSTRAINT `User`
+  FOREIGN KEY (`User`)
+  REFERENCES `projectdb`.`person` (`UserName`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+

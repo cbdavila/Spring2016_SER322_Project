@@ -1,0 +1,13 @@
+ALTER TABLE `projectdb`.`following` 
+ADD INDEX `followeeToPerson_idx` (`Followee` ASC);
+ALTER TABLE `projectdb`.`following` 
+ADD CONSTRAINT `followerToPerson`
+  FOREIGN KEY (`Follower`)
+  REFERENCES `projectdb`.`person` (`UserName`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION,
+ADD CONSTRAINT `followeeToPerson`
+  FOREIGN KEY (`Followee`)
+  REFERENCES `projectdb`.`person` (`UserName`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

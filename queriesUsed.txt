@@ -1,0 +1,123 @@
+// Finding the tweets with the search phrase
+// equals $messageQuery in the other queries for redundency
+SELECT * 
+FROM tweets 
+WHERE Msg LIKE '%" . $searchPhrase . "%'AND tweets.Date BETWEEN '$dateFrom' AND '$dateTo'
+
+// Linking the people to the tweet they sent
+// $equals $PersonQuery in the other queries for redundency
+SELECT * 
+FROM person 
+WHERE UserName = ANY(SELECT User FROM (". $messageQuery .") as mQ)
+
+//Citys messages were sent from with the matched phrase with the amount from each city
+SELECT city.CityName AS name, COUNT(*) AS num
+FROM city
+INNER JOIN (SELECT City AS 'name' FROM (". $messageQuery .") AS pQ) AS totalCount
+ON city.CityId=totalCount.name
+GROUP BY CityId
+
+//Country messages were sent from with the matched phrase with the amount from each Country
+SELECT country.CountryName AS name, COUNT(*) AS num
+FROM country
+INNER JOIN
+	(SELECT city.CountryId as 'name'
+	FROM city
+	INNER JOIN 
+		(SELECT City AS 'name'
+		FROM (". $messageQuery .") AS pQ) AS totalCount
+	ON city.CityId=totalCount.name) as cQ
+ON country.CountryId=cQ.name
+GROUP BY CountryId
+
+//Prefered Language of people who sent a message with the matched phrase with the amount of who Prefered it
+SELECT LngName AS name, COUNT(*) AS num
+FROM language 
+INNER JOIN
+	(SELECT PrfLng 
+	FROM (". $PersonQuery .") as mQ) as totalCount
+ON language.LngID=totalCount.PrfLng
+GROUP BY LngID
+
+//People Referenced in the messages with the matched phrase and how many times they were referenced
+SELECT word AS name, COUNT(*) AS num
+FROM 
+	(SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(mQ.Msg, ' ', n.n), ' ', -1) AS word
+	FROM (". $messageQuery .") as mQ CROSS JOIN 
+		(SELECT a.N + b.N * 10 + 1 n
+		FROM 
+			(SELECT 0 AS N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) a
+			,(SELECT 0 AS N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) b
+		ORDER BY n) n
+	WHERE n.n <= 1 + (LENGTH(mQ.Msg) - LENGTH(REPLACE(mQ.Msg, ' ', '')))
+	ORDER BY Msg) AS messageWords
+WHERE word LIKE '%@%'
+GROUP BY word
+
+//Hashtags used in the messages with the matched phrase and how many times they were used
+SELECT word AS name, COUNT(*) AS num
+FROM 
+	(SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(mQ.Msg, ' ', n.n), ' ', -1) AS word
+	FROM (". $messageQuery .") as mQ CROSS JOIN 
+		(SELECT a.N + b.N * 10 + 1 n
+		FROM 
+			(SELECT 0 AS N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) a
+			,(SELECT 0 AS N UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) b
+		ORDER BY n) n
+	WHERE n.n <= 1 + (LENGTH(mQ.Msg) - LENGTH(REPLACE(mQ.Msg, ' ', '')))
+	ORDER BY Msg) AS messageWords
+WHERE word LIKE '%#%'
+GROUP BY word
+
+//Dates messages with the matched phrase were sent on with how many per date
+SELECT Date AS name, COUNT(*) AS num 
+FROM (". $messageQuery .") as mQ
+GROUP BY Date
+
+//Following Query of a user
+// equals $followingQuery in the other queries for redundency
+SELECT " . $Followee . " 
+FROM " . $project . "." . $followTbl . " 
+WHERE " . $Follower . " = '" . $_GET['username'] . "'"
+
+// Info Query about a user
+// equals $followingQuery in the other queries for redundency
+SELECT ". $UsrNm . " , " . $Name . " , " . $Email . " , " . $DOB . " , " . $CtNm . " , " . $LNm . " 
+FROM " . $project . "." . $personTbl . " , " . $project . "." . $cityTbl . " , " . $project . ".". $lngTbl ." 
+Where " . $CtId . " = " . $HmCt . " AND " .  $PrLng . " = " . $LngID . " AND " . $UsrNm . " = '" . $_GET['username'] . "'
+
+//Tweets sent by a user
+SELECT Date, CityName, Msg 
+FROM tweets, city
+Where CityId = City  AND User = '" . $_GET['username'] . "'
+
+//People a user is not following (used for the dropdown)
+SELECT DISTINCT Followee
+FROM following
+WHERE Followee NOT IN (SELECT Followee 
+	FROM following
+	WHERE Follower = '" . $_GET['username'] . "')
+	
+//Insert a new user into a user's following table
+INSERT INTO " . $dbName .".following (`Follower`, `Followee`)
+VALUES ('". $_GET['username'] ."','". $_GET['followee'] ."')
+
+//Info query about a City
+SELECT city.Population, CountryName, country.Population
+FROM city, country
+WHERE city.CountryId = country.CountryId AND CityId = " . $_GET['CityId']
+
+//Get city name from id
+SELECT CityName
+FROM city
+WHERE CityId = " . $_GET['CityId']
+
+//Get tweets sent from a city
+SELECT User, Date, Msg 
+FROM tweets
+Where City = " . $_GET['CityId']
+
+//get people whos home is in the selected city
+SELECT UserName
+FROM person, city
+WHERE CityId = HomeCity AND CityId = " . $_GET['CityId']
