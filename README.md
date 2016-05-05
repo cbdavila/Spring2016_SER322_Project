@@ -18,8 +18,9 @@ Made for an ASU SER 322 database class 2016
 3. Fill out the New Server Information
 2. Click the Local Instance box and enter your password
 3. On the left side click Startup / Shutdown and start the server if not already running.
-4. Open a tab for executing querys
-5. paste in our script "SetupTweetData.txt" from github found in the sql folder
+4. On the left hand side, under Management, click on Data Import/Restore and choose the file 'Dump20160503.sql'.  
+5. The file can be found on GitHub under Dumps folder which in sql folder. 
+6. When the project is imported to to the workbench (projectdb), you can start php (next step). 
 
 ### PHP
 1. Copy the files in the php folder on github
