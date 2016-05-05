@@ -3,14 +3,17 @@
 <head>
 	<title>Twitter Trends</title>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
-	
-	
-	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.0.1/Chart.min.js"></script>-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	
+	<!--MySQL Connection-->
+	<?php
+		$servername = "localhost";
+		$username = "root";
+		$password = "pass";
+		$dbName = "projectser322"; //projectdb projectser322
+	?>
 </head>
 <body>
 <?php
@@ -122,20 +125,6 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 			</div>
 		</form>
 	</div>
-	<!--MySQL Connection-->
-	<?php
-		//$searchPhrase = "test";
-		//<?php echo $_GET["searchPhrase"];
-
-		$servername = "localhost";
-		$username = "root";
-		$password = "Nooice0124";
-		$dbName = "projectdb"; //projectdb projectser322
-		
-        $messageQuery = "SELECT * FROM tweets WHERE Msg LIKE '%" . $searchPhrase . "%'AND tweets.Date BETWEEN '$dateFrom' AND '$dateTo'";
-
-		$PersonQuery = "SELECT * FROM person WHERE UserName = ANY(SELECT User FROM (". $messageQuery .") as mQ)";
-	?>
 	
 	<!--Searching Inputs-->
 	<div class="well">
@@ -154,6 +143,9 @@ $dateFrom = $timeFrom= $dateTo = $timeTo = "";
 	<!-- Querys -->
 	<h2>Querys</h2>
 	<?php
+		$messageQuery = "SELECT * FROM tweets WHERE Msg LIKE '%" . $searchPhrase . "%'AND tweets.Date BETWEEN '$dateFrom' AND '$dateTo'";
+		$PersonQuery = "SELECT * FROM person WHERE UserName = ANY(SELECT User FROM (". $messageQuery .") as mQ)";
+		
 		try 
 		{
 			$conn = new PDO("mysql:host=$servername;dbname=". $dbName, $username, $password);

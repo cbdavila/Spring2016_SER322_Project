@@ -3,20 +3,22 @@
 <head>
 	<title>Twitter Trends</title>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	
+	<!--MySQL Connection-->
+	<?php
+		$servername = "localhost";
+		$username = "root";
+		$password = "pass";
+		$dbName = "projectser322"; //projectdb projectser322
+	?>
 </head>
 <body>
 <div class="container page-content">
 	
 		<h1 class="text-center">Twitter Trends</h1>
-	<?php
-
-		$servername = "localhost";
-		$username = "root";
-		$password = "Nooice0124";
-		$dbName = "projectdb"; 
-		
+	<?php	
         $CityName = "City Name N/A";
 
 		extract( $_POST );
@@ -31,11 +33,11 @@
                             WHERE CityId = " . $_GET['CityId'];
 
         $tweetsQuery = "SELECT User, Date, Msg 
-                        FROM projectdb.tweets
+                        FROM tweets
                         Where City = " . $_GET['CityId'];
 
         $personQuery = "SELECT UserName
-                        FROM projectdb.person, projectdb.city
+                        FROM person, city
                         WHERE CityId = HomeCity AND CityId = " . $_GET['CityId'];
 
         //Builds a SELECT query
