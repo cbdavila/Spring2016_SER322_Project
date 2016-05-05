@@ -18,7 +18,10 @@
 <body>
 <?php
 $searchPhrase = "";
-$dateFrom = $timeFrom= $dateTo = $timeTo = "";
+$dateFrom = "2015-12-13";
+$timeFrom = "";
+$dateTo = "2016-05-04";
+$timeTo = "";
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") 
 	{
